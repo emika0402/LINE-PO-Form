@@ -70,6 +70,18 @@
         </div>
 
         <div class="mb-3">
+            <label for="sticker" class="form-label">三角コーナーシール</label>
+            <div class="form-check ml-3">
+                <input class="form-check-input" type="radio" name="sticker" id="is-sticker" value="有">
+                <label class="form-check-label" for="is-sticker">有</label>
+            </div>
+            <div class="form-check ml-3">
+                <input class="form-check-input" type="radio" name="sticker" id="is-not-sticker" value="無">
+                <label class="form-check-label" for="is-not-sticker">無</label>
+            </div>
+        </div>
+
+        <div class="mb-3">
             <label for="bag" class="form-label">袋</label>
             <div class="form-check ml-3">
                 <input class="form-check-input" type="radio" name="bag" id="is-bag" value="有">
@@ -190,6 +202,7 @@
                 const item_num           = $('input[name="item-num"]').val();
                 const volumes            = $('input[name="volumes"]').val();
                 const wrapping           = $('input[name="wrapping"]').val();
+                const sticker            = $('input[name="sticker"]').val();
                 const bag                = $('input[name="bag"]').val();
                 const paper              = $('input[name="paper"]').val();
                 const delivery_date      = $('input[name="delivery-date"]').val();
@@ -251,6 +264,8 @@ ${item_num}\n
 ${volumes}\n
 包装：
 ${wrapping}\n
+三角コーナーシール：
+${sticker}\n
 袋：
 ${bag}\n
 熨斗：
