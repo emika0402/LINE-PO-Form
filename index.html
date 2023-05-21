@@ -130,10 +130,18 @@
         </div>
 
         <div class="mb-3">
+            <label for="family-name" class="form-label">熨斗の宗家名</label>
+            <input type="text" name="family-name" id="family-name" class="form-control">
+        </div>
+
+        <div class="mb-3">
             <label for="remarks1" class="form-label">備考</label>
             <input type="text" class="form-control mb-1" name="remarks[]" id="remarks1">
             <input type="text" class="form-control mb-1" name="remarks[]" id="remarks2">
             <input type="text" class="form-control mb-1" name="remarks[]" id="remarks3">
+            <input type="text" class="form-control mb-1" name="remarks[]" id="remarks4">
+            <input type="text" class="form-control mb-1" name="remarks[]" id="remarks5">
+            <input type="text" class="form-control mb-1" name="remarks[]" id="remarks6">
         </div>
 
         <div class="mx-auto w-50 text-center">
@@ -154,8 +162,8 @@
             initializeLiff(liffId);
         })
 
-        async function initializeLiff(liffId) {
-            await liff.init({
+        function initializeLiff(liffId) {
+            liff.init({
                 liffId: liffId
             }).then(() => {
                 initializeApp();
@@ -209,6 +217,7 @@
                 const destination        = $('input[name="destination[]"]:checked').map(function(){ return $(this).val(); }).get();
                 const office_name_sagawa = $('input[name="office-name-sagawa"]').val();
                 const office_name_yamato = $('input[name="office-name-yamato"]').val();
+                const family_name        = $('input[name="family-name"]').val();
                 const remarks            = $('input[name="remarks[]"]').map(function(){ return $(this).val(); }).get();
 
                 // 日時のフォーマット
@@ -274,6 +283,8 @@ ${paper}\n
 ${formatted_delivery_date}\n
 出荷先：
 ${destination_msg}
+熨斗の宗家名：
+${(family_name)? family_name : ''}\n
 備考：
 ${remarks_msg}`;
 
