@@ -1,0 +1,279 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eas-発注書フォーム</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+
+    <style>
+        .destination-sagawa, .destination-yamato {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .bg {
+            background-color: rgb(226, 242, 248);
+        }
+        label:not(.form-check-label) {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg">
+    <h3 class="w-75 mx-auto mt-5 mb-5 text-center">発注書作成フォーム</h3>
+    <form class="w-75 mx-auto ml-3 mr-3" onsubmit="return false">
+        <div class="mb-3">
+            <label for="company" class="form-label">会社名</label>
+            <select name="company" id="company" class="form-control" required>
+                <option value="(株)アールコーヒー東北">(株)アールコーヒー東北</option>
+                <option value="(株)クラマン">(株)クラマン</option>
+                <option value="(株)磯屋">(株)磯屋</option>
+                <option value="(株)みとわ">(株)みとわ</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="order-date" class="form-label">発注日</label>
+            <input type="date" name="order-date" id="order-date" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">発注者名</label>
+            <select name="name" id="name" class="form-control" required>
+                <option value="福井">福井</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="item-num" class="form-label">品番</label>
+            <input type="text" name="item-num" id="item-num" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="volumes" class="form-label">数量</label>
+            <input type="number" name="volumes" id="volumes" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="wrapping" class="form-label">包装</label>
+            <div class="form-check ml-3">
+                <input class="form-check-input" type="radio" name="wrapping" id="is-wrapping" value="有">
+                <label class="form-check-label" for="is-wrapping">有</label>
+            </div>
+            <div class="form-check ml-3">
+                <input class="form-check-input" type="radio" name="wrapping" id="is-not-wrapping" value="無">
+                <label class="form-check-label" for="is-not-wrapping">無</label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="bag" class="form-label">袋</label>
+            <div class="form-check ml-3">
+                <input class="form-check-input" type="radio" name="bag" id="is-bag" value="有">
+                <label class="form-check-label" for="is-bag">有</label>
+            </div>
+            <div class="form-check ml-3">
+                <input class="form-check-input" type="radio" name="bag" id="is-not-bag" value="無">
+                <label class="form-check-label" for="is-not-bag">無</label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="paper" class="form-label">熨斗</label>
+            <div class="form-check ml-3">
+                <input class="form-check-input" type="radio" name="paper" id="is-paper" value="有">
+                <label class="form-check-label" for="is-paper">有</label>
+            </div>
+            <div class="form-check ml-3">
+                <input class="form-check-input" type="radio" name="paper" id="is-not-paper" value="無">
+                <label class="form-check-label" for="is-not-paper">無</label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="delivery-date" class="form-label">希望納期</label>
+            <input type="date" name="delivery-date" id="delivery-date" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="destination" class="form-label">出荷先</label>
+            <div class="form-check">
+                <input type="checkbox" name="destination[]" value="1"> AM必着　佐川急便　(株)イース<br>
+                <input type="checkbox" name="destination[]" value="2"> AM必着　ヤマト便　(株)イース<br>
+                <input type="checkbox" name="destination[]" id="destination-sagawa" value="3"> AM必着　佐川急便　営業所止め<br>
+                <!-- チェックされたら営業所名のフォームを出現 -->
+                <div class="destination-sagawa">
+                    <input type="text" class="form-control w-100 mt-1 mb-2" name="office-name-sagawa" placeholder="営業所名">
+                </div>
+                <input type="checkbox" name="destination[]" id="destination-yamato" value="4"> AM必着　ヤマト便　営業所止め<br>
+                <!-- チェックされたら営業所名のフォームを出現 -->
+                <div class="destination-yamato">
+                    <input type="text" class="form-control w-100 mt-1 mb-2" name="office-name-yamato" placeholder="営業所名">
+                </div>
+                <input type="checkbox" name="destination[]" value="5"> 直送
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="remarks1" class="form-label">備考</label>
+            <input type="text" class="form-control mb-1" name="remarks[]" id="remarks1">
+            <input type="text" class="form-control mb-1" name="remarks[]" id="remarks2">
+            <input type="text" class="form-control mb-1" name="remarks[]" id="remarks3">
+        </div>
+
+        <div class="mx-auto w-50 text-center">
+            <input type="submit" class="mt-4 w-100 btn btn-success" value="送信">
+        </div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            const liffId = "1661189118-VBLpZqLn";
+            initializeLiff(liffId);
+        })
+
+        function initializeLiff(liffId) {
+            liff.init({
+                liffId: liffId
+            }).then(() => {
+                initializeApp();
+            }).catch((err) => {
+                console.log('LIFF Initialization failed ', err);
+            });
+        }
+
+        function sendText(text) {
+            liff.sendMessages([{
+                'type': 'text',
+                'text': text
+            }]).then(function () {
+                liff.closeWindow();
+            }).catch(function (error) {
+                window.alert('Failed to send message ' + error);
+            });
+        }
+
+        const params = (new URL(document.location)).searchParams;
+        const key = params.get('key');
+
+        $(function () {
+            let self = this;
+            // 出荷先に営業所止めがチェックされたら営業所名の入力フォームを出現させる
+            $('#destination-sagawa').change(function () {
+                $('.destination-sagawa').toggleClass("active");
+            });
+            $('#destination-yamato').change(function () {
+                $('.destination-yamato').toggleClass("active");
+            });
+
+            // 送信処理
+            $('form').submit(function () {
+                const DESTINATION_SAGAWA_EAS = '1';
+                const DESTINATION_YAMATO_EAS = '2';
+                const DESTINATION_SAGAWA_OFFICE = '3';
+                const DESTINATION_YAMATO_OFFICE = '4';
+                const DESTINATION_DIRECT = '5';
+
+                const company            = $('[name="company"]').val();
+                const order_date         = $('input[name="order-date"]').val();
+                const name               = $('[name="name"]').val();
+                const item_num           = $('input[name="item-num"]').val();
+                const volumes            = $('input[name="volumes"]').val();
+                const wrapping           = $('input[name="wrapping"]').val();
+                const bag                = $('input[name="bag"]').val();
+                const paper              = $('input[name="paper"]').val();
+                const delivery_date      = $('input[name="delivery-date"]').val();
+                const destination        = $('input[name="destination[]"]:checked').map(function(){ return $(this).val(); }).get();
+                const office_name_sagawa = $('input[name="office-name-sagawa"]').val();
+                const office_name_yamato = $('input[name="office-name-yamato"]').val();
+                const remarks            = $('input[name="remarks[]"]').map(function(){ return $(this).val(); }).get();
+
+                // 日時のフォーマット
+                let formatted_order_date = formatDate(order_date);
+                let formatted_delivery_date = formatDate(delivery_date);
+
+                // 出荷先
+                let destination_sagawa_eas = '';
+                let destination_yamato_eas = '';
+                let destination_sagawa_office = '';
+                let destination_yamato_office = '';
+                let destination_direct = '';
+
+                for (item of destination) {
+                    switch(item) {
+                        case DESTINATION_SAGAWA_EAS:
+                            destination_sagawa_eas = 'AM必着　佐川急便　(株)イース\n';
+                            break;
+                        case DESTINATION_YAMATO_EAS:
+                            destination_yamato_eas = 'AM必着　ヤマト便　(株)イース\n';
+                            break;
+                        case DESTINATION_SAGAWA_OFFICE:
+                            destination_sagawa_office = 'AM必着　佐川急便　営業所止め　' + office_name_sagawa + '\n';
+                            break;
+                        case DESTINATION_YAMATO_OFFICE:
+                            destination_yamato_office = 'AM必着　ヤマト便　営業所止め　' + office_name_yamato + '\n';
+                            break;
+                        case DESTINATION_DIRECT:
+                            destination_direct = '直送';
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                const destination_msg = destination_sagawa_eas + destination_yamato_eas + destination_sagawa_office + destination_yamato_office + destination_direct;
+
+                // 備考
+                let remarks_msg = '';
+                for (item of remarks) {
+                    if (!item) { continue; }
+                    remarks_msg += item + '\n';
+                }
+
+                const msg =`会社名：
+${company}\n
+発注日：
+${formatted_order_date}\n
+発注者名：
+${name}\n
+品番：
+${item_num}\n
+数量：
+${volumes}\n
+包装：
+${wrapping}\n
+袋：
+${bag}\n
+熨斗：
+${paper}\n
+希望納品日：
+${formatted_delivery_date}\n
+出荷先：
+${destination_msg}\n
+備考：
+${remarks_msg}`;
+
+                console.log('msg=', msg);
+                // sendText(msg);
+                return false;
+            });
+            function formatDate(date) {
+                date = new Date(date);
+                const week = date.getDay();
+                const weekItems = ["(日)", "(月)", "(火)", "(水)", "(木)", "(金)", "(土)"];
+                const dayOfWeek = weekItems[week];
+                let formatted_date = date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日 ' + dayOfWeek;
+                return formatted_date;
+            }
+        });
+    </script>
+</body>
+</html>
