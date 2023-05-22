@@ -366,10 +366,10 @@ ${(family_name)? family_name : ''}\n
 備考：
 ${remarks}\n
 処理データ：
-${JSON.parse(json)}`;
+${JSON.stringify(json)}`;
 
                 console.log('msg=', msg);
-                console.log('json=', json);
+                console.log('json=', JSON.stringify(json));
                 sendText(msg);
                 // sendTemplate(json);
                 return true;
