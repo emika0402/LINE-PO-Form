@@ -210,23 +210,26 @@
             //     window.alert('Failed to send message ' + error);
             // });
             liff.sendMessages([{
-                'type': 'template',
-                'template': {
-                    'type': 'buttons',
-                    'actions': [
-                        {
-                            'type': 'postback',
-                            'label': 'はい',
-                            'data': json
-                        },
-                        {
-                            'type': 'message',
-                            'label': 'いいえ',
-                            'text': '発注書の作成をキャンセルしました。'
+                'type': 'text',
+                'text': '発注書を作成しますか？',
+                'quickReply': {
+                    "items": [{
+                        "type": "action",
+                        "action": {
+                            "type": "postback",
+                            "label": "はい",
+                            "displayText": "発注書を作成しました！",
+                            "data": json
                         }
-                    ],
-                    'title': '発注書を作成しますか？',
-                    'text': text
+                    },
+                    {
+                        "type": "action",
+                        "action": {
+                            "type": "message",
+                            "label": "いいえ",
+                            "text": "発注書の作成をキャンセルしました。"
+                        }
+                    }]
                 }
             }]).then(function () {
                 liff.closeWindow();
