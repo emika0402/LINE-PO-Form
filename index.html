@@ -43,7 +43,7 @@
         <div class="card p-3 mb-2">
             <div class="mb-3">
                 <label for="order-date" class="form-label">発注日</label>
-                <input type="date" name="order-date" id="order-date" class="form-control" style="width: 100%;" required>
+                <input type="text" name="order-date" id="order-date" class="form-control" placeholder="年/月/日" required />
             </div>
         </div>
 
@@ -129,7 +129,7 @@
         <div class="card p-3 mb-2">
             <div class="mb-3">
                 <label for="delivery-date" class="form-label">希望納期</label>
-                <input type="date" name="delivery-date" id="delivery-date" class="form-control" style="width: 100%;" required>
+                <input type="text" name="delivery-date" id="delivery-date" class="form-control" placeholder="年/月/日" required />
             </div>
         </div>
 
@@ -239,7 +239,9 @@
         const key = params.get('key');
 
         $(function () {
-            let self = this;
+            $('#order-date, #delivery-date').datepicker({
+                dateFormat: "yy/mm/dd"
+            });
             // 出荷先に営業所止めがチェックされたら営業所名の入力フォームを出現させる
             $('#destination-sagawa').change(function () {
                 $('.destination-sagawa').toggleClass("active");
