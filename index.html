@@ -234,22 +234,23 @@
             // });
             liff.sendMessages([{
                 "type": "template",
-                "altText": "発注書の作成確認テンプレート",
+                "altText": "this is a confirm template",
                 "template": {
-                    "type": "buttons",
-                    "text": "上記の内容で発注書を作成しますか？",
+                    "type": "confirm",
                     "actions": [
                         {
                             "type": "postback",
                             "label": "はい",
-                            "data": "はい、のデータ"
+                            "text": "発注書作成中...",
+                            "data": "{\"data\": \"データ\"}"
                         },
                         {
                             "type": "message",
                             "label": "いいえ",
                             "text": "発注書の作成をキャンセルしました。"
                         }
-                    ]
+                    ],
+                    "text": "上記の内容で発注書を作成しますか？"
                 }
             }]).then(function () {
                 liff.closeWindow();
