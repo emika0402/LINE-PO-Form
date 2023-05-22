@@ -210,25 +210,22 @@
             //     window.alert('Failed to send message ' + error);
             // });
             liff.sendMessages([{
-                'type': 'text',
-                'text': '発注書を作成しますか？',
-                'quickReply': {
-                    "items": [{
-                        "type": "action",
-                        "action": {
-                            "type": "postback",
-                            "label": "はい",
-                            "displayText": "発注書を作成しました！",
-                            "data": json
-                        }
+                'type': 'template',
+                'altText': '発注書の作成確認テンプレート',
+                'template': {
+                    'type': 'buttons',
+                    'title': '以下の内容で発注書を作成しますか？',
+                    'text': text,
+                    'actions': [{
+                        'type': 'postback',
+                        'label': 'はい',
+                        'data': json,
+                        'displayText': '発注書作成中...',
                     },
                     {
-                        "type": "action",
-                        "action": {
-                            "type": "message",
-                            "label": "いいえ",
-                            "text": "発注書の作成をキャンセルしました。"
-                        }
+                        'type': 'message',
+                        'label': 'いいえ',
+                        'text': '発注書の作成をキャンセルしました。'
                     }]
                 }
             }]).then(function () {
