@@ -209,32 +209,33 @@
             }).catch(function (error) {
                 window.alert('Failed to send message ' + error);
             });
-
-            // liff.sendMessages([{
-            //     "type": "template",
-            //     "altText": "this is a confirm template",
-            //     "template": {
-            //         "type": "confirm",
-            //         "actions": [
-            //             {
-            //                 "type": "postback",
-            //                 "label": "はい",
-            //                 "text": "発注書作成中...",
-            //                 "data": "{\"data\": \"データ\"}"
-            //             },
-            //             {
-            //                 "type": "message",
-            //                 "label": "いいえ",
-            //                 "text": "発注書の作成をキャンセルしました。"
-            //             }
-            //         ],
-            //         "text": "上記の内容で発注書を作成しますか？"
-            //     }
-            // }]).then(function () {
-            //     liff.closeWindow();
-            // }).catch(function (error) {
-            //     window.alert('Failed to send message ' + error);
-            // });
+        }
+        function sendTemplate(json) {
+            liff.sendMessages([{
+                "type": "template",
+                "altText": "this is a confirm template",
+                "template": {
+                    "type": "confirm",
+                    "actions": [
+                        {
+                            "type": "postback",
+                            "label": "はい",
+                            "text": "発注書作成中...",
+                            "data": json
+                        },
+                        {
+                            "type": "message",
+                            "label": "いいえ",
+                            "text": "発注書の作成をキャンセルしました。"
+                        }
+                    ],
+                    "text": "上記の内容で発注書を作成しますか？"
+                }
+            }]).then(function () {
+                liff.closeWindow();
+            }).catch(function (error) {
+                window.alert('Failed to send message ' + error);
+            });
         }
 
         const params = (new URL(document.location)).searchParams;
@@ -368,7 +369,8 @@ ${remarks}`;
                 console.log('msg=', msg);
                 console.log('json=', json);
                 sendText(msg);
-                return false;
+                sendTemplate(json);
+                return true;
             });
 
             function formatDate(date) {
