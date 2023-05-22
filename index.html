@@ -366,7 +366,7 @@ ${(family_name)? family_name : ''}\n
 備考：
 ${remarks}\n
 処理データ：
-${json}`;
+${JSON.stringify(json)}`;
 
                 console.log('msg=', msg);
                 console.log('json=', json);
