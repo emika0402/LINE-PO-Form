@@ -200,7 +200,7 @@
             });
         }
 
-        function sendText(text, json) {
+        function sendText(text) {
             liff.sendMessages([{
                 'type': 'text',
                 'text': text
@@ -367,7 +367,7 @@ ${remarks}`;
 
                 console.log('msg=', msg);
                 console.log('json=', json);
-                sendText(msg, json);
+                sendText(msg);
                 return false;
             });
 
