@@ -210,33 +210,33 @@
                 window.alert('Failed to send message ' + error);
             });
         }
-        function sendTemplate(json) {
-            liff.sendMessages([{
-                "type": "template",
-                "altText": "this is a confirm template",
-                "template": {
-                    "type": "confirm",
-                    "actions": [
-                        {
-                            "type": "postback",
-                            "label": "はい",
-                            "text": "発注書作成中...",
-                            "data": json
-                        },
-                        {
-                            "type": "message",
-                            "label": "いいえ",
-                            "text": "発注書の作成をキャンセルしました。"
-                        }
-                    ],
-                    "text": "上記の内容で発注書を作成しますか？"
-                }
-            }]).then(function () {
-                liff.closeWindow();
-            }).catch(function (error) {
-                window.alert('Failed to send message ' + error);
-            });
-        }
+        // function sendTemplate(json) {
+        //     liff.sendMessages([{
+        //         "type": "template",
+        //         "altText": "this is a confirm template",
+        //         "template": {
+        //             "type": "confirm",
+        //             "actions": [
+        //                 {
+        //                     "type": "postback",
+        //                     "label": "はい",
+        //                     "text": "発注書作成中...",
+        //                     "data": json
+        //                 },
+        //                 {
+        //                     "type": "message",
+        //                     "label": "いいえ",
+        //                     "text": "発注書の作成をキャンセルしました。"
+        //                 }
+        //             ],
+        //             "text": "上記の内容で発注書を作成しますか？"
+        //         }
+        //     }]).then(function () {
+        //         liff.closeWindow();
+        //     }).catch(function (error) {
+        //         window.alert('Failed to send message ' + error);
+        //     });
+        // }
 
         const params = (new URL(document.location)).searchParams;
         const key = params.get('key');
@@ -323,6 +323,22 @@
                 const destination_msg = destination_array.join('\n');
                 const destination_json = destination_array.join(',');
 
+                const json = {
+                    "company": company,
+                    "order_date": formatted_order_date,
+                    "name": name,
+                    "item_num": item_num,
+                    "volumes": volumes,
+                    "wrapping": wrapping,
+                    "sticker": sticker,
+                    "bag": bag,
+                    "paper": paper,
+                    "delivery_date": formatted_delivery_date,
+                    "destination": destination_json,
+                    "family_name": family_name,
+                    "remarks": remarks
+                };
+
                 const msg =`会社名：
 ${company}\n
 発注日：
@@ -348,28 +364,14 @@ ${destination_msg}\n
 熨斗の宗家名：
 ${(family_name)? family_name : ''}\n
 備考：
-${remarks}`;
-
-                const json = {
-                    "company": company,
-                    "order_date": formatted_order_date,
-                    "name": name,
-                    "item_num": item_num,
-                    "volumes": volumes,
-                    "wrapping": wrapping,
-                    "sticker": sticker,
-                    "bag": bag,
-                    "paper": paper,
-                    "delivery_date": formatted_delivery_date,
-                    "destination": destination_json,
-                    "family_name": family_name,
-                    "remarks": remarks
-                };
+${remarks}\n
+処理データ：
+${json}`;
 
                 console.log('msg=', msg);
                 console.log('json=', json);
                 sendText(msg);
-                sendTemplate(json);
+                // sendTemplate(json);
                 return true;
             });
 
