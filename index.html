@@ -209,31 +209,37 @@
             // }).catch(function (error) {
             //     window.alert('Failed to send message ' + error);
             // });
-            liff.sendMessages([{
-                'type': 'template',
-                'altText': '発注書の作成確認テンプレート',
-                'template': {
-                    'type': 'buttons',
-                    'title': '以下の内容で発注書を作成しますか？',
-                    'text': text,
-                    'actions': [{
-                        'type': 'postback',
-                        'label': 'はい',
-                        'data': json,
-                        'displayText': '発注書作成中...',
-                    },
-                    {
-                        'type': 'message',
-                        'label': 'いいえ',
-                        'text': '発注書の作成をキャンセルしました。'
-                    }]
+            liff.sendMessages([
+                {
+                    'type': 'text',
+                    'text': text
+                },
+                {
+                    'type': 'template',
+                    'altText': '発注書の作成確認テンプレート',
+                    'template': {
+                        'type': 'buttons',
+                        // 'title': '以下の内容で発注書を作成しますか？',
+                        'text': '上記の内容で発注書を作成しますか？',
+                        'actions': [{
+                            'type': 'postback',
+                            'label': 'はい',
+                            'data': json,
+                            'displayText': '発注書作成中...',
+                        },
+                        {
+                            'type': 'message',
+                            'label': 'いいえ',
+                            'text': '発注書の作成をキャンセルしました。'
+                        }]
+                    }
                 }
-            }]).then(function () {
-                liff.closeWindow();
-            }).catch(function (error) {
-                window.alert('Failed to send message ' + error);
-            });
-        }
+            ]).then(function () {
+                    liff.closeWindow();
+                }).catch(function (error) {
+                    window.alert('Failed to send message ' + error);
+                });
+            }
 
         const params = (new URL(document.location)).searchParams;
         const key = params.get('key');
