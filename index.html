@@ -242,10 +242,10 @@
                 const name               = $('[name="name"]').val();
                 const item_num           = $('input[name="item-num"]').val();
                 const volumes            = $('input[name="volumes"]').val();
-                const wrapping           = $('input[name="wrapping"]').val();
-                const sticker            = $('input[name="sticker"]').val();
-                const bag                = $('input[name="bag"]').val();
-                const paper              = $('input[name="paper"]').val();
+                const wrapping           = $('input[name="wrapping"]:checked').val();
+                const sticker            = $('input[name="sticker"]:checked').val();
+                const bag                = $('input[name="bag"]:checked').val();
+                const paper              = $('input[name="paper"]:checked').val();
                 const delivery_date      = $('input[name="delivery-date"]').val();
                 const destination        = $('input[name="destination[]"]:checked').map(function(){ return $(this).val(); }).get();
                 const office_name_sagawa = $('input[name="office-name-sagawa"]').val();
