@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eas-発注書フォーム</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
 
@@ -19,6 +20,10 @@
         }
         label:not(.form-check-label) {
             font-weight: bold;
+        }
+        .item-card {
+            border: 2px dashed #007bff;
+            background-color: #f8f9fa;
         }
     </style>
 </head>
@@ -59,74 +64,14 @@
             </div>
         </div>
 
-        <div class="card p-3 mb-2">
-            <div class="mb-3">
-                <label for="item-num" class="form-label">品番</label>
-                <input type="text" name="item-num" id="item-num" class="form-control" required>
-            </div>
+        <!-- 商品情報コンテナ -->
+        <div id="items-container">
+            <!-- 動的に追加・複製される商品ブロックのテンプレート -->
         </div>
 
-        <div class="card p-3 mb-2">
-            <div class="mb-3">
-                <label for="volumes" class="form-label">数量</label>
-                <input type="number" name="volumes" id="volumes" class="form-control" required>
-            </div>
-        </div>
-
-        <div class="card p-3 mb-2">
-            <div class="mb-3">
-                <label for="wrapping" class="form-label">包装</label>
-                <div class="form-check ml-3">
-                    <input class="form-check-input" type="radio" name="wrapping" id="is-wrapping" value="有">
-                    <label class="form-check-label" for="is-wrapping">有</label>
-                </div>
-                <div class="form-check ml-3">
-                    <input class="form-check-input" type="radio" name="wrapping" id="is-not-wrapping" value="無">
-                    <label class="form-check-label" for="is-not-wrapping">無</label>
-                </div>
-            </div>
-        </div>
-
-        <div class="card p-3 mb-2">
-            <div class="mb-3">
-                <label for="sticker" class="form-label">三角コーナーシール</label>
-                <div class="form-check ml-3">
-                    <input class="form-check-input" type="radio" name="sticker" id="is-sticker" value="有">
-                    <label class="form-check-label" for="is-sticker">有</label>
-                </div>
-                <div class="form-check ml-3">
-                    <input class="form-check-input" type="radio" name="sticker" id="is-not-sticker" value="無">
-                    <label class="form-check-label" for="is-not-sticker">無</label>
-                </div>
-            </div>
-        </div>
-
-        <div class="card p-3 mb-2">
-            <div class="mb-3">
-                <label for="bag" class="form-label">袋</label>
-                <div class="form-check ml-3">
-                    <input class="form-check-input" type="radio" name="bag" id="is-bag" value="有">
-                    <label class="form-check-label" for="is-bag">有</label>
-                </div>
-                <div class="form-check ml-3">
-                    <input class="form-check-input" type="radio" name="bag" id="is-not-bag" value="無">
-                    <label class="form-check-label" for="is-not-bag">無</label>
-                </div>
-            </div>
-        </div>
-
-        <div class="card p-3 mb-2">
-            <div class="mb-3">
-                <label for="paper" class="form-label">熨斗</label>
-                <div class="form-check ml-3">
-                    <input class="form-check-input" type="radio" name="paper" id="is-paper" value="有">
-                    <label class="form-check-label" for="is-paper">有</label>
-                </div>
-                <div class="form-check ml-3">
-                    <input class="form-check-input" type="radio" name="paper" id="is-not-paper" value="無">
-                    <label class="form-check-label" for="is-not-paper">無</label>
-                </div>
-            </div>
+        <!-- 商品追加ボタン -->
+        <div class="mb-3 text-center">
+            <button type="button" id="add-item-btn" class="btn btn-success btn-block py-2">＋ 商品を追加する</button>
         </div>
 
         <div class="card p-3 mb-2">
@@ -140,20 +85,17 @@
             <div class="mb-3">
                 <label for="destination" class="form-label">出荷先</label>
                 <div class="form-check">
-                    <input type="checkbox" name="destination[]" value="1"> AM必着　佐川急便　(株)イース<br>
-                    <input type="checkbox" name="destination[]" value="2"> AM必着　ヤマト便　(株)イース<br>
-                    <input type="checkbox" name="destination[]" id="destination-sagawa" value="3"> AM必着　佐川急便　営業所止め<br>
-                    <!-- チェックされたら営業所名のフォームを出現 -->
+                    <input type="checkbox" name="destination[]" value="1"> AM必着 佐川急便 (株)イース<br>
+                    <input type="checkbox" name="destination[]" value="2"> AM必着 ヤマト便 (株)イース<br>
+                    <input type="checkbox" name="destination[]" id="destination-sagawa" value="3"> AM必着 佐川急便 営業所止め<br>
                     <div class="destination-sagawa">
                         <input type="text" class="form-control w-100 mt-1 mb-2" name="office-name-sagawa" placeholder="営業所名">
                     </div>
-                    <input type="checkbox" name="destination[]" id="destination-yamato" value="4"> AM必着　ヤマト便　営業所止め<br>
-                    <!-- チェックされたら営業所名のフォームを出現 -->
+                    <input type="checkbox" name="destination[]" id="destination-yamato" value="4"> AM必着 ヤマト便 営業所止め<br>
                     <div class="destination-yamato">
                         <input type="text" class="form-control w-100 mt-1 mb-2" name="office-name-yamato" placeholder="営業所名">
                     </div>
                     <input type="checkbox" name="destination[]" id="destination-direct" value="5"> 直送<br>
-                    <!-- チェックされたら営業所名のフォームを出現 -->
                     <div class="destination-direct">
                         <input type="text" class="form-control w-100 mt-1 mb-2" name="direct-delivery">
                     </div>
@@ -170,13 +112,13 @@
 
         <div class="card p-3 mb-2">
             <div class="mb-3">
-                <label for="remarks" class="form-label">備考</label>
+                <label for="remarks" class="form-label">備考（全体）</label>
                 <textarea type="text" class="form-control mb-1" name="remarks" id="remarks"></textarea>
             </div>
         </div>
 
         <div class="mx-auto w-50 text-center">
-            <input type="submit" class="mt-4 w-100 btn btn-primary" value="送信">
+            <input type="submit" class="mt-4 w-100 btn btn-primary py-2" value="送信">
         </div>
     </form>
 
@@ -187,17 +129,152 @@
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     
     <script>
-
         $(document).ready(function () {
             const liffId = "1661189118-VBLpZqLn";
             initializeLiff(liffId);
-        })
+
+            // 初期状態で1つ目の商品フォームを追加
+            addItemRow();
+
+            // 「商品を追加する」ボタンの処理
+            $('#add-item-btn').click(function () {
+                if ($('.item-block').length >= 6) {
+                    alert('追加できる商品は最大6つまでです。');
+                    return;
+                }
+                addItemRow();
+            });
+
+            // 商品行削除ボタンの処理
+            $('#items-container').on('click', '.remove-item-btn', function () {
+                if ($('.item-block').length > 1) {$(this).closest('.item-block').remove();
+                    // 削除後に番号とラジオボタンのname属性を再振り分け
+                    reindexItemRows();
+                } else {
+                    alert('最低1つの商品は必要です。');
+                }
+            });
+        });
+
+        // 商品入力ブロックを追加する関数
+        function addItemRow() {
+            const html = `
+                <div class="card p-3 mb-3 item-block">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="text-primary font-weight-bold mb-0 item-title">商品 #1</h5>
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-item-btn">削除</button>
+                    </div>
+                    <hr>
+                    <div class="mb-3">
+                        <label class="form-label">品番</label>
+                        <input type="text" name="item-num" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">数量</label>
+                        <input type="number" name="volumes" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">包装</label>
+                        <div class="form-check ml-3">
+                            <input class="form-check-input radio-wrapping-default" type="radio" value="X" checked style="display:none;">
+                            <input class="form-check-input radio-wrapping-yes" type="radio" value="有">
+                            <label class="form-check-label label-wrapping-yes">有</label>
+                        </div>
+                        <div class="form-check ml-3">
+                            <input class="form-check-input radio-wrapping-no" type="radio" value="無">
+                            <label class="form-check-label label-wrapping-no">無</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">三角コーナーシール</label>
+                        <div class="form-check ml-3">
+                            <input class="form-check-input radio-sticker-default" type="radio" value="X" checked style="display:none;">
+                            <input class="form-check-input radio-sticker-yes" type="radio" value="有">
+                            <label class="form-check-label label-sticker-yes">有</label>
+                        </div>
+                        <div class="form-check ml-3">
+                            <input class="form-check-input radio-sticker-no" type="radio" value="無">
+                            <label class="form-check-label label-sticker-no">無</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">袋</label>
+                        <div class="form-check ml-3">
+                            <input class="form-check-input radio-bag-default" type="radio" value="X" checked style="display:none;">
+                            <input class="form-check-input radio-bag-yes" type="radio" value="有">
+                            <label class="form-check-label label-bag-yes">有</label>
+                        </div>
+                        <div class="form-check ml-3">
+                            <input class="form-check-input radio-bag-no" type="radio" value="無">
+                            <label class="form-check-label label-bag-no">無</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">熨斗</label>
+                        <div class="form-check ml-3">
+                            <input class="form-check-input radio-paper-default" type="radio" value="X" checked style="display:none;">
+                            <input class="form-check-input radio-paper-yes" type="radio" value="有">
+                            <label class="form-check-label label-paper-yes">有</label>
+                        </div>
+                        <div class="form-check ml-3">
+                            <input class="form-check-input radio-paper-no" type="radio" value="無">
+                            <label class="form-check-label label-paper-no">無</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">商品備考</label>
+                        <input type="text" name="item-remarks" class="form-control" placeholder="商品ごとの備考">
+                    </div>
+                </div>
+            `;
+            $('#items-container').append(html);
+            
+            // 追加後に番号とラジオボタン属性を更新
+            reindexItemRows();
+        }
+
+        // 番号タイトルおよびラジオボタンの name/id/for 属性を順番通りに再設定する関数
+        function reindexItemRows() {
+            $('.item-block').each(function (index) {
+                const num = index + 1;
+                // タイトル更新 (商品 #1, 商品 #2...)
+                $(this).find('.item-title').text(`商品 #${num}`);
+
+                // 包装ラジオボタン更新
+                $(this).find('.radio-wrapping-default').attr('name', `wrapping_${index}`);
+                $(this).find('.radio-wrapping-yes').attr({ 'name': `wrapping_${index}`, 'id': `is-wrapping_${index}` });
+                $(this).find('.label-wrapping-yes').attr('for', `is-wrapping_${index}`);
+                $(this).find('.radio-wrapping-no').attr({ 'name': `wrapping_${index}`, 'id': `is-not-wrapping_${index}` });
+                $(this).find('.label-wrapping-no').attr('for', `is-not-wrapping_${index}`);
+
+                // 三角コーナーシールラジオボタン更新
+                $(this).find('.radio-sticker-default').attr('name', `sticker_${index}`);
+                $(this).find('.radio-sticker-yes').attr({ 'name': `sticker_${index}`, 'id': `is-sticker_${index}` });
+                $(this).find('.label-sticker-yes').attr('for', `is-sticker_${index}`);
+                $(this).find('.radio-sticker-no').attr({ 'name': `sticker_${index}`, 'id': `is-not-sticker_${index}` });
+                $(this).find('.label-sticker-no').attr('for', `is-not-sticker_${index}`);
+
+                // 袋ラジオボタン更新
+                $(this).find('.radio-bag-default').attr('name', `bag_${index}`);
+                $(this).find('.radio-bag-yes').attr({ 'name': `bag_${index}`, 'id': `is-bag_${index}` });
+                $(this).find('.label-bag-yes').attr('for', `is-bag_${index}`);
+                $(this).find('.radio-bag-no').attr({ 'name': `bag_${index}`, 'id': `is-not-bag_${index}` });
+                $(this).find('.label-bag-no').attr('for', `is-not-bag_${index}`);
+
+                // 熨斗ラジオボタン更新
+                $(this).find('.radio-paper-default').attr('name', `paper_${index}`);
+                $(this).find('.radio-paper-yes').attr({ 'name': `paper_${index}`, 'id': `is-paper_${index}` });
+                $(this).find('.label-paper-yes').attr('for', `is-paper_${index}`);
+                $(this).find('.radio-paper-no').attr({ 'name': `paper_${index}`, 'id': `is-not-paper_${index}` });
+                $(this).find('.label-paper-no').attr('for', `is-not-paper_${index}`);
+            });
+        }
 
         function initializeLiff(liffId) {
             liff.init({
                 liffId: liffId
             }).then(() => {
-                initializeApp();
+                // success
             }).catch((err) => {
                 console.log('LIFF Initialization failed ', err);
             });
@@ -214,14 +291,9 @@
             });
         }
 
-        const params = (new URL(document.location)).searchParams;
-        const key = params.get('key');
-
-        $(function () {
-            $('#order-date, #delivery-date').datepicker({
+        $(function () {$('#order-date, #delivery-date').datepicker({
                 dateFormat: "yy/mm/dd"
             });
-            // 出荷先に営業所止めがチェックされたら営業所名の入力フォームを出現させる
             $('#destination-sagawa').change(function () {
                 $('.destination-sagawa').toggleClass("active");
             });
@@ -240,62 +312,65 @@
                 const DESTINATION_YAMATO_OFFICE = '4';
                 const DESTINATION_DIRECT = '5';
 
-                const company            = $('[name="company"]').val();
-                const order_date         = $('input[name="order-date"]').val();
-                const name               = $('[name="name"]').val();
-                const item_num           = $('input[name="item-num"]').val();
-                const volumes            = $('input[name="volumes"]').val();
-                const wrapping           = $('input[name="wrapping"]:checked').val();
-                const sticker            = $('input[name="sticker"]:checked').val();
-                const bag                = $('input[name="bag"]:checked').val();
-                const paper              = $('input[name="paper"]:checked').val();
-                const delivery_date      = $('input[name="delivery-date"]').val();
-                const destination        = $('input[name="destination[]"]:checked').map(function(){ return $(this).val(); }).get();
+                const company       = $('[name="company"]').val();
+                const order_date    = $('input[name="order-date"]').val();
+                const name          = $('[name="name"]').val();
+                const delivery_date = $('input[name="delivery-date"]').val();
+                const destination   = $('input[name="destination[]"]:checked').map(function(){ return $(this).val(); }).get();
                 const office_name_sagawa = $('input[name="office-name-sagawa"]').val();
                 const office_name_yamato = $('input[name="office-name-yamato"]').val();
                 const direct_delivery    = $('input[name="direct-delivery"]').val();
-                const family_name        = $('input[name="family-name"]').val();
-                const remarks            = $('[name="remarks"]').val();
+                const family_name   = $('input[name="family-name"]').val();
+                const remarks       = $('[name="remarks"]').val();
 
-                // 日時のフォーマット
+                // 複数商品のデータを収集
+                let items_array = [];
+                $('.item-block').each(function(index) {
+                    const item_num   = $(this).find('input[name="item-num"]').val();
+                    const volumes    = $(this).find('input[name="volumes"]').val();
+                    const wrapping   = $(this).find(`input[name="wrapping_${index}"]:checked`).val();
+                    const sticker    = $(this).find(`input[name="sticker_${index}"]:checked`).val();
+                    const bag        = $(this).find(`input[name="bag_${index}"]:checked`).val();
+                    const paper      = $(this).find(`input[name="paper_${index}"]:checked`).val();
+                    const item_rem   = $(this).find('input[name="item-remarks"]').val();
+
+                    items_array.push({
+                        "item_num": item_num,
+                        "volumes": volumes,
+                        "wrapping": wrapping === "X" ? "" : wrapping,
+                        "sticker": sticker === "X" ? "" : sticker,
+                        "bag": bag === "X" ? "" : bag,
+                        "paper": paper === "X" ? "" : paper,
+                        "item_remarks": item_rem
+                    });
+                });
+
                 let formatted_order_date = formatDate(order_date);
                 let formatted_delivery_date = formatDate(delivery_date);
-
-                // 出荷先
-                let destination_sagawa_eas = '';
-                let destination_yamato_eas = '';
-                let destination_sagawa_office = '';
-                let destination_yamato_office = '';
-                let destination_direct = '';
 
                 let destination_array = [];
                 for (item of destination) {
                     switch(item) {
                         case DESTINATION_SAGAWA_EAS:
-                            destination_sagawa_eas = 'AM必着　佐川急便　(株)イース';
-                            destination_array.push(destination_sagawa_eas);
+                            destination_array.push('AM必着 佐川急便 (株)イース');
                             break;
                         case DESTINATION_YAMATO_EAS:
-                            destination_yamato_eas = 'AM必着　ヤマト便　(株)イース';
-                            destination_array.push(destination_yamato_eas);
+                            destination_array.push('AM必着 ヤマト便 (株)イース');
                             break;
                         case DESTINATION_SAGAWA_OFFICE:
-                            destination_sagawa_office = 'AM必着　佐川急便　営業所止め　' + office_name_sagawa;
-                            destination_array.push(destination_sagawa_office);
+                            destination_array.push('AM必着 佐川急便 営業所止め ' + office_name_sagawa);
                             break;
                         case DESTINATION_YAMATO_OFFICE:
-                            destination_yamato_office = 'AM必着　ヤマト便　営業所止め　' + office_name_yamato;
-                            destination_array.push(destination_yamato_office);
+                            destination_array.push('AM必着 ヤマト便 営業所止め ' + office_name_yamato);
                             break;
                         case DESTINATION_DIRECT:
-                            destination_direct = '直送　' + direct_delivery;
-                            destination_array.push(destination_direct);
+                            destination_array.push('直送 ' + direct_delivery);
                             break;
                         default:
                             break;
                     }
                 }
-                
+
                 const destination_msg = destination_array.join('\n');
                 const destination_json = destination_array.join(',');
 
@@ -303,36 +378,26 @@
                     "company": company,
                     "order_date": formatted_order_date,
                     "name": name,
-                    "item_num": item_num,
-                    "volumes": volumes,
-                    "wrapping": wrapping,
-                    "sticker": sticker,
-                    "bag": bag,
-                    "paper": paper,
+                    "items": items_array,
                     "delivery_date": formatted_delivery_date,
                     "destination": destination_json,
                     "family_name": family_name,
                     "remarks": remarks
                 };
 
-                const msg =`会社名：
+                let items_msg_str = items_array.map((item, idx) => 
+                    `[商品${idx+1}]\n品番: ${item.item_num}\n数量: ${item.volumes}\n包装: ${item.wrapping || '無'}\n三角コーナー: ${item.sticker || '無'}\n袋: ${item.bag || '無'}\n熨斗: ${item.paper || '無'}\n備考: ${item.item_remarks}`
+                ).join('\n\n');
+
+                const msg = `会社名：
 ${company}\n
 発注日：
 ${formatted_order_date}\n
 発注者名：
 ${name}\n
-品番：
-${item_num}\n
-数量：
-${volumes}\n
-包装：
-${wrapping}\n
-三角コーナーシール：
-${sticker}\n
-袋：
-${bag}\n
-熨斗：
-${paper}\n
+--- 商品一覧 ---\n
+${items_msg_str}\n
+----------------\n
 希望納品日：
 ${formatted_delivery_date}\n
 出荷先：
